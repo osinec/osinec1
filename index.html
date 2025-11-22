@@ -360,6 +360,18 @@
             background: #000;
             border-radius: 20px;
         }
+        .yandex-player-container {
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        .yandex-player-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 20px;
+        }
         .play-overlay {
             position: absolute;
             top: 0;
@@ -801,8 +813,14 @@
                 const activeCard = carousel.children[currentIndex];
                 if (activeCard) {
                     const videoElement = activeCard.querySelector('.video-player');
+                    const yandexIframe = activeCard.querySelector('.yandex-player-iframe');
                     const playOverlay = activeCard.querySelector('.play-overlay');
-                    if (videoElement && playOverlay) toggleVideoPlayback(videoElement, playOverlay);
+                    
+                    if (videoElement && playOverlay) {
+                        toggleVideoPlayback(videoElement, playOverlay);
+                    } else if (yandexIframe) {
+                        toggleYandexVideoPlayback(yandexIframe, playOverlay);
+                    }
                 }
             }
         }
@@ -846,8 +864,25 @@
             }
         }
 
+        /* ---------- Определяем тип видео ---------- */
+        function getVideoType(videoUrl) {
+            if (!videoUrl) return 'unknown';
+            
+            if (videoUrl.includes('yandex')) {
+                return 'yandex';
+            } else if (videoUrl.includes('.mp4') || videoUrl.includes('.webm') || videoUrl.includes('.ogg')) {
+                return 'direct';
+            } else if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
+                return 'youtube';
+            } else if (videoUrl.includes('vimeo.com')) {
+                return 'vimeo';
+            } else {
+                return 'unknown';
+            }
+        }
+
         /* ---------- Ленивый загрузчик видео + буфер ---------- */
-        function setVideoSource(videoElement, src) {
+        function setVideoSource(videoElement, src, videoType) {
             if (!videoElement) return;
             const currentSrc = videoElement.dataset.currentSrc || '';
             if (currentSrc === src) return;
@@ -855,7 +890,7 @@
             // Очищаем предыдущие источники
             while (videoElement.firstChild) videoElement.removeChild(videoElement.firstChild);
             
-            if (src) {
+            if (src && videoType === 'direct') {
                 const sourceEl = document.createElement('source');
                 sourceEl.src = src;
                 sourceEl.type = 'video/mp4';
@@ -905,13 +940,16 @@
             for (let i = 0; i < videos.length; i++) {
                 const card = carousel.children[i];
                 if (!card) continue;
+                
                 const videoEl = card.querySelector('.video-player');
                 const shouldKeep = Math.abs(i - centerIndex) <= BUFFER_RANGE || 
                                  Math.abs(i - centerIndex + videos.length) <= BUFFER_RANGE || 
                                  Math.abs(i - centerIndex - videos.length) <= BUFFER_RANGE;
-                if (shouldKeep) {
-                    setVideoSource(videoEl, videos[i].videoUrl);
-                } else {
+                
+                if (shouldKeep && videoEl) {
+                    const videoType = getVideoType(videos[i].videoUrl);
+                    setVideoSource(videoEl, videos[i].videoUrl, videoType);
+                } else if (videoEl) {
                     setVideoSource(videoEl, '');
                 }
             }
@@ -929,30 +967,65 @@
                 videoCard.setAttribute('role', 'group');
                 videoCard.setAttribute('aria-roledescription', 'video card');
 
-                const videoHTML = `
-                    <div class="video-title">${escapeHtml(video.title)}</div>
-                    <div class="video-player-container">
-                        <video class="video-player" preload="none" playsinline muted tabindex="-1" aria-hidden="false"></video>
-                        <div class="play-overlay" data-overlay>
-                            <div class="play-icon">
-                                <i class="fas fa-play"></i>
+                const videoType = getVideoType(video.videoUrl);
+                let videoHTML = '';
+
+                if (videoType === 'yandex') {
+                    // Для Яндекс Видео используем iframe
+                    videoHTML = `
+                        <div class="video-title">${escapeHtml(video.title)}</div>
+                        <div class="video-player-container">
+                            <div class="yandex-player-container">
+                                <iframe 
+                                    class="yandex-player-iframe" 
+                                    src="${video.videoUrl}&autoplay=0&mute=1" 
+                                    allow="autoplay; encrypted-media" 
+                                    allowfullscreen
+                                    loading="lazy">
+                                </iframe>
+                            </div>
+                            <div class="play-overlay" data-overlay>
+                                <div class="play-icon">
+                                    <i class="fas fa-play"></i>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                `;
+                    `;
+                } else {
+                    // Для прямых ссылок используем video элемент
+                    videoHTML = `
+                        <div class="video-title">${escapeHtml(video.title)}</div>
+                        <div class="video-player-container">
+                            <video class="video-player" preload="none" playsinline muted tabindex="-1" aria-hidden="false"></video>
+                            <div class="play-overlay" data-overlay>
+                                <div class="play-icon">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
                 videoCard.innerHTML = videoHTML;
 
-                const videoElement = videoCard.querySelector('.video-player');
-                const playOverlay = videoCard.querySelector('.play-overlay');
+                if (videoType === 'yandex') {
+                    const iframe = videoCard.querySelector('.yandex-player-iframe');
+                    const playOverlay = videoCard.querySelector('.play-overlay');
+                    
+                    videoCard.addEventListener('click', () => toggleYandexVideoPlayback(iframe, playOverlay), { passive: true });
+                } else {
+                    const videoElement = videoCard.querySelector('.video-player');
+                    const playOverlay = videoCard.querySelector('.play-overlay');
 
-                videoCard.addEventListener('click', () => toggleVideoPlayback(videoElement, playOverlay), { passive: true });
+                    videoCard.addEventListener('click', () => toggleVideoPlayback(videoElement, playOverlay), { passive: true });
 
-                videoElement.addEventListener('ended', () => {
-                    playOverlay.classList.remove('hidden');
-                    currentlyPlayingVideo = null;
-                }, { passive: true });
+                    videoElement.addEventListener('ended', () => {
+                        playOverlay.classList.remove('hidden');
+                        currentlyPlayingVideo = null;
+                    }, { passive: true });
 
-                videoElement.dataset.src = video.videoUrl || '';
+                    videoElement.dataset.src = video.videoUrl || '';
+                }
 
                 frag.appendChild(videoCard);
             });
@@ -960,21 +1033,20 @@
             createProgressDots();
         }
 
-        /* ---------- Прогресс-доты ---------- */
-        function createProgressDots() {
-            progressDots.innerHTML = '';
-            const frag = document.createDocumentFragment();
-            videos.forEach((_, idx) => {
-                const dot = document.createElement('div');
-                dot.className = `dot ${idx === currentIndex ? 'active' : ''}`;
-                dot.setAttribute('role', 'tab');
-                dot.addEventListener('click', () => goToVideo(idx), { passive: true });
-                frag.appendChild(dot);
-            });
-            progressDots.appendChild(frag);
+        /* ---------- Воспроизведение для Яндекс Видео ---------- */
+        function toggleYandexVideoPlayback(iframe, playOverlay) {
+            if (!iframe) return;
+            
+            // Скрываем overlay при клике
+            playOverlay.classList.add('hidden');
+            
+            // Для Яндекс видео мы не можем контролировать воспроизведение через API,
+            // так как это iframe с другого домена. Пользователь должен управлять воспроизведением
+            // через элементы управления самого плеера.
+            console.log('Яндекс видео: используйте элементы управления в плеере');
         }
 
-        /* ---------- Воспроизведение видео ---------- */
+        /* ---------- Воспроизведение для прямых видео ---------- */
         function toggleVideoPlayback(videoElement, playOverlay) {
             if (!videoElement) return;
             
@@ -987,7 +1059,8 @@
             }
 
             if (!videoElement.dataset.currentSrc) {
-                setVideoSource(videoElement, videoElement.dataset.src);
+                const videoType = getVideoType(videoElement.dataset.src);
+                setVideoSource(videoElement, videoElement.dataset.src, videoType);
             }
             
             if (currentlyPlayingVideo && currentlyPlayingVideo !== videoElement) {
@@ -1012,6 +1085,20 @@
                 playOverlay.classList.remove('hidden');
                 currentlyPlayingVideo = null;
             }
+        }
+
+        /* ---------- Прогресс-доты ---------- */
+        function createProgressDots() {
+            progressDots.innerHTML = '';
+            const frag = document.createDocumentFragment();
+            videos.forEach((_, idx) => {
+                const dot = document.createElement('div');
+                dot.className = `dot ${idx === currentIndex ? 'active' : ''}`;
+                dot.setAttribute('role', 'tab');
+                dot.addEventListener('click', () => goToVideo(idx), { passive: true });
+                frag.appendChild(dot);
+            });
+            progressDots.appendChild(frag);
         }
 
         /* ---------- Обновление карусели ---------- */
@@ -1184,32 +1271,30 @@
             });
         }
 
-        /* ---------- Fallback контент с внешними ссылками ---------- */
+        /* ---------- Fallback контент с вашим Яндекс видео ---------- */
         function getDefaultVideos() {
             return [
                 {
-                    title: "Демо видео 1",
-                    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                    title: "Пример видео с Яндекс Облаком",
+                    videoUrl: "https://runtime.video.cloud.yandex.net/player/video/vplvscsviln3pecevi4w?autoplay=0&mute=0",
                     article: {
                         title: "Демонстрационная статья",
                         content: `
                             <div class="article-text">
-                                <p>Это демонстрационная статья для видео с внешнего хостинга. Все видео загружаются по ссылкам из интернета.</p>
+                                <p>Это демонстрационная статья для видео с Яндекс Облака. Видео загружается через iframe с официального плеера Яндекс.</p>
                                 <div class="article-image">
                                     <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Демо изображение">
                                 </div>
-                                <h3 class="article-subtitle">Как использовать галерею с внешними видео</h3>
-                                <p>Для добавления собственных видео и статей:</p>
+                                <h3 class="article-subtitle">Особенности Яндекс Видео</h3>
+                                <p>Видео с Яндекс Облака воспроизводится через встроенный плеер:</p>
                                 <ul class="article-list">
-                                    <li>Разместите видео на хостинге (YouTube, Vimeo, облачное хранилище)</li>
-                                    <li>Создайте файл data.json с прямыми ссылками на видео</li>
-                                    <li>Обновите страницу — ваши видео появятся в галерее!</li>
+                                    <li>Автоматическая адаптация качества</li>
+                                    <li>Встроенные элементы управления</li>
+                                    <li>Поддержка полноэкранного режима</li>
+                                    <li>Оптимизированная буферизация</li>
                                 </ul>
                                 <div class="success-note">
-                                    <p><strong>Совет:</strong> Используйте прямые ссылки на MP4 файлы для лучшей совместимости.</p>
-                                </div>
-                                <div class="article-quote">
-                                    "Красота в простоте. Самые сложные идеи часто требуют самых простых решений."
+                                    <p><strong>Примечание:</strong> Для управления воспроизведением используйте элементы управления в самом плеере.</p>
                                 </div>
                             </div>
                         `
@@ -1222,29 +1307,12 @@
                         title: "Вторая демо статья",
                         content: `
                             <div class="article-text">
-                                <p>Это вторая демонстрационная статья с видео с внешнего хостинга.</p>
+                                <p>Это вторая демонстрационная статья с обычным MP4 видео.</p>
                                 <div class="article-image">
                                     <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Демо изображение">
                                 </div>
                                 <h3 class="article-subtitle">Дополнительная информация</h3>
                                 <p>Здесь может быть любой контент для второй статьи.</p>
-                            </div>
-                        `
-                    }
-                },
-                {
-                    title: "Третье видео с длинным названием",
-                    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-                    article: {
-                        title: "Третья демо статья",
-                        content: `
-                            <div class="article-text">
-                                <p>Это третья демонстрационная статья.</p>
-                                <div class="article-image">
-                                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Демо изображение">
-                                </div>
-                                <h3 class="article-subtitle">Еще больше информации</h3>
-                                <p>Контент для третьей статьи.</p>
                             </div>
                         `
                     }
