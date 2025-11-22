@@ -10,7 +10,7 @@
     },
     {
       "title": "Продвинутые техники",
-      "videoUrl": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+      "videoUrl": "https://runtime.video.cloud.yandex.net/player/video/vplvscsviln3pecevi4w?autoplay=0&mute=0",
       "article": {
         "title": "Сложные алгоритмы",
         "content": "<div class=\"article-text\"><p>В этой статье мы рассмотрим более сложные алгоритмы и структуры данных.</p><h3 class=\"article-subtitle\">Продвинутые темы</h3><ul class=\"article-list\"><li>Алгоритмы сортировки</li><li>Деревья и графы</li><li>Динамическое программирование</li><li>Оптимизация кода</li></ul><div class=\"success-note\"><p><strong>Совет:</strong> Практика — ключ к освоению сложных алгоритмов.</p></div></div>"
