@@ -2,7 +2,7 @@
   "videos": [
     {
       "title": "Основы программирования",
-      "videoUrl": "https://runtime.video.cloud.yandex.net/player/video/vplvscsviln3pecevi4w?autoplay=0&mute=0",
+      "videoUrl": "https://runtime.video.cloud.yandex.net/player/video/vplvscsviln3pecevi4w?autoplay=1&mute=0",
       "article": {
         "title": "Введение в программирование",
         "content": "<div class=\"article-text\"><p>Программирование — это процесс создания инструкций для компьютера. В этой статье мы рассмотрим основы программирования, включая переменные, циклы и функции.</p><h3 class=\"article-subtitle\">Основные концепции</h3><ul class=\"article-list\"><li>Переменные и типы данных</li><li>Условные операторы</li><li>Циклы и итерации</li><li>Функции и модули</li></ul><div class=\"important-note\"><p><strong>Важно:</strong> Понимание основ программирования — ключ к решению сложных задач.</p></div></div>"
