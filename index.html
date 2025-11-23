@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Стили остаются без изменений */
         :root {
             --primary: #8B5CF6;
             --primary-light: #A78BFA;
@@ -370,6 +371,44 @@
             border: none;
             border-radius: 20px;
         }
+        .video-preview {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .video-preview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+        }
+        .preview-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+        }
+        .preview-play-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        .preview-text {
+            font-size: 1.1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            font-weight: 500;
+        }
         .play-overlay {
             position: absolute;
             top: 0;
@@ -379,8 +418,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: rgba(0, 0, 0, 0.28);
-            transition: opacity 0.2s ease;
+            background: rgba(0, 0, 0, 0.6);
+            transition: opacity 0.3s ease, background 0.3s ease;
             cursor: pointer;
             z-index: 10;
             border-radius: 20px;
@@ -393,17 +432,18 @@
             width: 70px;
             height: 70px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.2);
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 24px;
             color: white;
-            transition: transform 0.2s ease;
+            transition: transform 0.2s ease, background 0.2s ease;
+            border: 2px solid rgba(255,255,255,0.3);
         }
         .play-overlay:hover .play-icon {
-            transform: scale(1.08);
-            background: rgba(255,255,255,0.18);
+            transform: scale(1.1);
+            background: rgba(255,255,255,0.3);
         }
         .video-error {
             position: absolute;
@@ -676,6 +716,8 @@
             .article-subtitle { font-size: 1.5rem; }
             .video-title { font-size: 1.2rem; top: -60px; max-height: 50px; }
             .gallery-container { padding: 70px 0 40px; min-height: 620px; }
+            .preview-play-icon { font-size: 2.5rem; }
+            .preview-text { font-size: 1rem; }
         }
         @media (max-width:480px) {
             .carousel { width: 280px; height:440px; }
@@ -691,6 +733,8 @@
             .article-subtitle { font-size: 1.3rem; }
             .video-title { font-size: 1.1rem; top: -55px; max-height: 45px; }
             .gallery-container { padding: 65px 0 40px; min-height: 600px; }
+            .preview-play-icon { font-size: 2rem; }
+            .preview-text { font-size: 0.9rem; }
         }
     </style>
 </head>
@@ -814,6 +858,7 @@
         function getVideoType(videoUrl) {
             if (!videoUrl) return 'unknown';
             if (videoUrl.includes('yandex')) return 'yandex';
+            if (videoUrl.includes('youtube')) return 'youtube';
             if (videoUrl.includes('.mp4') || videoUrl.includes('.webm') || videoUrl.includes('.ogg')) return 'direct';
             return 'unknown';
         }
@@ -842,20 +887,29 @@
                 videoCard.dataset.index = index;
                 const videoType = getVideoType(video.videoUrl);
                 let videoHTML = '';
-                if (videoType === 'yandex') {
+                
+                // Используем превью из данных или стандартное превью
+                const previewImage = video.previewImage || 'default-preview.jpg';
+                
+                if (videoType === 'yandex' || videoType === 'youtube') {
                     videoHTML = `
                         <div class="video-title">${escapeHtml(video.title)}</div>
                         <div class="video-player-container">
-                            <div class="yandex-player-container">
+                            <div class="yandex-player-container" style="display: none;">
                                 <iframe 
                                     class="yandex-player-iframe" 
-                                    src="${video.videoUrl}&autoplay=0&mute=1" 
-                                    allow="autoplay; encrypted-media" 
+                                    allow="encrypted-media" 
                                     allowfullscreen
                                     loading="lazy">
                                 </iframe>
                             </div>
-                            <div class="play-overlay" data-overlay>
+                            <div class="video-preview" style="background-image: url('${previewImage}')">
+                                <div class="preview-content">
+                                    <div class="preview-play-icon">▶</div>
+                                    <div class="preview-text">Нажмите для воспроизведения</div>
+                                </div>
+                            </div>
+                            <div class="play-overlay">
                                 <div class="play-icon">
                                     <i class="fas fa-play"></i>
                                 </div>
@@ -866,8 +920,8 @@
                     videoHTML = `
                         <div class="video-title">${escapeHtml(video.title)}</div>
                         <div class="video-player-container">
-                            <video class="video-player" preload="none" playsinline muted tabindex="-1"></video>
-                            <div class="play-overlay" data-overlay>
+                            <video class="video-player" preload="none" playsinline muted tabindex="-1" poster="${previewImage}"></video>
+                            <div class="play-overlay">
                                 <div class="play-icon">
                                     <i class="fas fa-play"></i>
                                 </div>
@@ -876,22 +930,72 @@
                     `;
                 }
                 videoCard.innerHTML = videoHTML;
-                if (videoType === 'yandex') {
+                
+                if (videoType === 'yandex' || videoType === 'youtube') {
+                    const iframeContainer = videoCard.querySelector('.yandex-player-container');
                     const iframe = videoCard.querySelector('.yandex-player-iframe');
+                    const preview = videoCard.querySelector('.video-preview');
                     const playOverlay = videoCard.querySelector('.play-overlay');
-                    videoCard.addEventListener('click', () => {
+                    
+                    // Обработчик клика для YouTube/Яндекс видео
+                    const playHandler = (e) => {
+                        e.stopPropagation();
+                        
+                        // Останавливаем все другие видео
+                        stopAllVideos();
+                        
+                        // Показываем iframe и скрываем превью
+                        iframeContainer.style.display = 'block';
+                        preview.style.display = 'none';
                         playOverlay.classList.add('hidden');
-                    }, { passive: true });
+                        
+                        // Устанавливаем src только при первом клике
+                        if (!iframe.src) {
+                            let videoUrl = video.videoUrl;
+                            if (videoType === 'youtube') {
+                                // Для YouTube добавляем autoplay
+                                videoUrl = videoUrl.includes('?') 
+                                    ? `${videoUrl}&autoplay=1` 
+                                    : `${videoUrl}?autoplay=1`;
+                            } else if (videoType === 'yandex') {
+                                // Для Яндекс также добавляем autoplay
+                                videoUrl = videoUrl.includes('?') 
+                                    ? `${videoUrl}&autoplay=1` 
+                                    : `${videoUrl}?autoplay=1`;
+                            }
+                            iframe.src = videoUrl;
+                        }
+                        
+                        currentlyPlayingVideo = iframe;
+                    };
+                    
+                    playOverlay.addEventListener('click', playHandler, { passive: true });
+                    preview.addEventListener('click', playHandler, { passive: true });
+                    
                 } else {
                     const videoElement = videoCard.querySelector('.video-player');
                     const playOverlay = videoCard.querySelector('.play-overlay');
                     videoElement.dataset.src = video.videoUrl || '';
-                    videoCard.addEventListener('click', () => {
+                    
+                    // Обработчик клика для прямых видео
+                    const playHandler = (e) => {
+                        e.stopPropagation();
+                        toggleVideoPlayback(videoElement, playOverlay);
+                    };
+                    
+                    playOverlay.addEventListener('click', playHandler, { passive: true });
+                    videoCard.addEventListener('click', (e) => {
+                        if (e.target.closest('.play-overlay')) return;
                         toggleVideoPlayback(videoElement, playOverlay);
                     }, { passive: true });
+                    
                     videoElement.addEventListener('ended', () => {
                         playOverlay.classList.remove('hidden');
                         currentlyPlayingVideo = null;
+                    }, { passive: true });
+                    
+                    videoElement.addEventListener('pause', () => {
+                        playOverlay.classList.remove('hidden');
                     }, { passive: true });
                 }
                 frag.appendChild(videoCard);
@@ -900,11 +1004,46 @@
             createProgressDots();
         }
 
+        function stopAllVideos() {
+            // Останавливаем прямые видео
+            if (currentlyPlayingVideo && currentlyPlayingVideo.tagName === 'VIDEO') {
+                try {
+                    currentlyPlayingVideo.pause();
+                    currentlyPlayingVideo.currentTime = 0;
+                    const playOverlay = currentlyPlayingVideo.parentElement.querySelector('.play-overlay');
+                    if (playOverlay) playOverlay.classList.remove('hidden');
+                } catch (e) {}
+            }
+            
+            // Останавливаем iframe видео (YouTube/Яндекс)
+            const iframes = document.querySelectorAll('.yandex-player-iframe');
+            iframes.forEach(iframe => {
+                if (iframe.src && iframe !== currentlyPlayingVideo) {
+                    try {
+                        // Для остановки iframe перезагружаем его без autoplay
+                        const src = iframe.src.replace('&autoplay=1', '').replace('?autoplay=1', '');
+                        iframe.src = src;
+                        const container = iframe.closest('.yandex-player-container');
+                        const preview = container.parentElement.querySelector('.video-preview');
+                        const playOverlay = container.parentElement.querySelector('.play-overlay');
+                        if (container) container.style.display = 'none';
+                        if (preview) preview.style.display = 'block';
+                        if (playOverlay) playOverlay.classList.remove('hidden');
+                    } catch (e) {}
+                }
+            });
+            
+            currentlyPlayingVideo = null;
+        }
+
         function toggleVideoPlayback(videoElement, playOverlay) {
             if (!videoElement) return;
             const container = videoElement.parentElement;
             const errorDiv = container.querySelector('.video-error');
             if (errorDiv) return;
+
+            // Останавливаем все другие видео
+            stopAllVideos();
 
             if (!videoElement.src && videoElement.dataset.src) {
                 const source = document.createElement('source');
@@ -912,15 +1051,6 @@
                 source.type = 'video/mp4';
                 videoElement.appendChild(source);
                 videoElement.load();
-            }
-
-            if (currentlyPlayingVideo && currentlyPlayingVideo !== videoElement) {
-                try {
-                    currentlyPlayingVideo.pause();
-                    currentlyPlayingVideo.currentTime = 0;
-                    const currentPlayOverlay = currentlyPlayingVideo.parentElement.querySelector('.play-overlay');
-                    if (currentPlayOverlay) currentPlayOverlay.classList.remove('hidden');
-                } catch (e) {}
             }
 
             if (videoElement.paused) {
@@ -1014,15 +1144,7 @@
         }
 
         function goToVideo(index) {
-            if (currentlyPlayingVideo) {
-                try {
-                    currentlyPlayingVideo.pause();
-                    currentlyPlayingVideo.currentTime = 0;
-                    const playOverlay = currentlyPlayingVideo.parentElement.querySelector('.play-overlay');
-                    if (playOverlay) playOverlay.classList.remove('hidden');
-                } catch (e) {}
-            }
-            currentlyPlayingVideo = null;
+            stopAllVideos();
             currentIndex = index % videos.length;
             updateCarousel();
             updateArticle();
@@ -1103,7 +1225,8 @@
             return [
                 {
                     title: "Пример видео с Яндекс Облаком",
-                    videoUrl: "https://runtime.video.cloud.yandex.net/player/video/vplvscsviln3pecevi4w?autoplay=0&mute=0",
+                    videoUrl: "https://runtime.video.cloud.yandex.net/player/video/vplvscsviln3pecevi4w",
+                    previewImage: "preview1.jpg", // Ваше превью
                     article: {
                         title: "Демонстрационная статья",
                         content: `
@@ -1124,6 +1247,7 @@
                 {
                     title: "Второе демо видео",
                     videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+                    previewImage: "preview2.jpg", // Ваше превью
                     article: {
                         title: "Вторая демо статья",
                         content: `<div class="article-text"><p>Это вторая демонстрационная статья с MP4 видео.</p></div>`
