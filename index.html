@@ -1,21 +1,1127 @@
-{
-  "videos": [
-    {
-      "title": "Лидерство во льдах",
-      "videoUrl": "urban-sunsets.mp4",
-      "article": {
-        "title": "Великие законы лидерства от великого мореплавателя",
-        "content": "<div class=\"article-text\">\n  <div class=\"frame-orange glow-effect\">\n    <div class=\"quote-icon\">❝</div>\n    <em>Каждый раз когда случается непонятная и пугающая ситуация глаза<br>\n    людей мечутся из угла в угол в поисках того, кто тверд, решителен,<br>\n    деятелен. В поисках того, за кем можно идти. Не важно куда.... просто<br>\n    идти.</em>\n    <div class=\"quote-author\">— Закон лидерства</div>\n  </div>\n  \n  <div class=\"floating-section\">\n    <p>Случаются моменты, когда твой мир сужается до размера льдины, которая где-то дрейфует в океане. Где есть только ты, твоя команда, ищущая в тебе ответы и никакой поддержки из вне. Ты и сам-то не до конца понимаешь что делать - но что-то делаешь, чтобы передать дух другим.</p>\n  </div>\n  \n  <div class=\"section-divider\">⚡</div>\n  \n  <h3 class=\"article-subtitle gradient-text\">Лидерству можно научиться</h3>\n  \n  <div class=\"animated-card\">\n    <p>Лидерство, как и большинство других качеств, что-то значат, да и<br>\n    вообще существуют только благодаря тому, что они к чему-то<br>\n    применимы. Характеристика «Мужчина» применима именно потому,<br>\n    что есть «Женщина». Характеристика «Ум» применима потому, что<br>\n    есть задача, к которой это требуется. Точно также с характеристикой<br>\n    «Лидерство»... Она применима, так как есть люди.</p>\n  </div>\n  \n  <div class=\"particles-background\">\n    <div class=\"frame-purple pulse-effect\">\n      <div class=\"cta-header\">\n        <span class=\"sparkle\">✨</span>\n        <span class=\"highlight-orange-preview glow-text\">Я подготовил для тебя</span>\n        <span class=\"sparkle\">✨</span>\n      </div>\n      <a href=\"#principles\" target=\"_blank\" class=\"animated-link\"> \n        🧭 принципы великого лидерства - от великого мореплавателя 🧭\n      </a>\n    </div>\n  </div>\n</div>"
-      }
-    },
-    {
-      "title": "Ваше второе видео",
-      "videoUrl": "https://ваша-ссылка-на-видео-2",
-      "previewImage": "ваше-превью-2.jpg",
-      "article": {
-        "title": "Заголовок статьи 2",
-        "content": "<div class='article-text'><p>Содержание второй статьи...</p></div>"
-      }
-    }
-  ]
-}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>OSINEC | Галерея со статьями</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #8B5CF6;
+            --primary-light: #A78BFA;
+            --accent: #06B6D4;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #EF4444;
+            --darker: #E9EEF8;
+            --text-main: #0F1724;
+            --text-dark: #0A0F1A;
+            --glass: rgba(255,255,255,0.25);
+            --glass-border: rgba(255,255,255,0.35);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            background: linear-gradient(180deg, var(--darker), #ffffff);
+            color: var(--text-main);
+            font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            line-height: 1.6;
+        }
+        header {
+            text-align: center;
+            padding: 20px 20px 5px;
+        }
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #0b1220, var(--primary-light));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+            letter-spacing: -0.5px;
+        }
+        .subtitle {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 300;
+            color: rgba(15,23,36,0.75);
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            line-height: 1.6;
+            letter-spacing: 0.2px;
+        }
+        .news-container {
+            max-width: 600px;
+            margin: 0 auto 20px;
+            padding: 0 20px;
+        }
+        .news-frame {
+            background: linear-gradient(135deg, #0D9488, #10B981);
+            border-radius: 14px;
+            padding: 18px;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(255,255,255,0.2);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(8px);
+            color: white;
+            min-height: auto;
+            transition: all 0.3s ease-out;
+        }
+        .news-frame::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.15) 0%, transparent 70%);
+            animation: glowPulse 4s infinite alternate;
+            pointer-events: none;
+            border-radius: 50%;
+            opacity: 0.6;
+        }
+        .news-content {
+            position: relative;
+            z-index: 2;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        .news-content h3 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 300;
+            font-size: 1.1rem;
+            margin-bottom: 6px;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            letter-spacing: -0.5px;
+        }
+        .news-content p {
+            margin-bottom: 6px;
+            opacity: 0.95;
+            word-wrap: break-word;
+            hyphens: auto;
+            letter-spacing: 0.1px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0 30px;
+            position: relative;
+        }
+        .news-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #0D9488, #10B981, #059669, #0D9488, #10B981);
+            background-size: 400% 400%;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            text-decoration: none;
+            box-shadow: 
+                0 4px 15px rgba(16, 185, 129, 0.25),
+                0 0 0 1px rgba(255, 255, 255, 0.1),
+                0 0 15px rgba(16, 185, 129, 0.15);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: none;
+            letter-spacing: 0.6px;
+            font-size: 0.95rem;
+            position: relative;
+            overflow: hidden;
+            animation: 
+                shimmer 2.5s ease-in-out infinite,
+                gentlePulse 3s ease-in-out infinite;
+        }
+        .news-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.4),
+                transparent
+            );
+            animation: shine 3s ease-in-out infinite;
+        }
+        .button-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: glowPulseButton 3s ease-in-out infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .news-button .icon {
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+            animation: iconPulse 2s ease-in-out infinite;
+        }
+        @keyframes shimmer {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+        @keyframes gentlePulse {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+                box-shadow: 
+                    0 4px 15px rgba(16, 185, 129, 0.25),
+                    0 0 0 1px rgba(255, 255, 255, 0.1),
+                    0 0 15px rgba(16, 185, 129, 0.15);
+            }
+            50% {
+                transform: translateY(-2px) scale(1.02);
+                box-shadow: 
+                    0 6px 20px rgba(16, 185, 129, 0.35),
+                    0 0 0 1px rgba(255, 255, 255, 0.2),
+                    0 0 20px rgba(16, 185, 129, 0.25);
+            }
+        }
+        @keyframes shine {
+            0% {
+                left: -100%;
+            }
+            20% {
+                left: 100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+        @keyframes glowPulseButton {
+            0%, 100% {
+                opacity: 0.2;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% {
+                opacity: 0.4;
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+        }
+        @keyframes iconPulse {
+            0%, 100% {
+                transform: translateX(0) scale(1);
+            }
+            50% {
+                transform: translateX(2px) scale(1.1);
+            }
+        }
+        .news-button:hover {
+            animation: 
+                shimmer 1s ease-in-out infinite,
+                gentlePulse 1.5s ease-in-out infinite;
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 
+                0 8px 25px rgba(16, 185, 129, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.3),
+                0 0 30px rgba(16, 185, 129, 0.3);
+        }
+        .gallery-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            perspective: 800px;
+            padding: 30px 0 15px;
+            min-height: 380px;
+            flex-direction: column;
+        }
+        .carousel {
+            position: relative;
+            width: 270px;
+            height: 480px; /* 9:16 соотношение */
+            transform-style: preserve-3d;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 15px;
+            will-change: transform;
+        }
+        .video-card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(10, 20, 30, 0.08);
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            will-change: transform, opacity;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        .video-title {
+            position: absolute;
+            top: -45px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-main);
+            padding: 0 10px;
+            z-index: 20;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.9);
+            white-space: normal;
+            overflow: visible;
+            text-overflow: unset;
+            line-height: 1.3;
+            max-height: 40px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            word-wrap: break-word;
+        }
+        .video-player-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: #000;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(10, 20, 30, 0.08);
+            border: 1px solid rgba(10,20,30,0.05);
+        }
+        .video-player {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: #000;
+            border-radius: 12px;
+        }
+        .yandex-player-container {
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .yandex-player-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 12px;
+        }
+        .video-preview {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .video-preview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+        }
+        .preview-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+        }
+        .preview-play-icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+        .preview-text {
+            font-size: 0.9rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            font-weight: 500;
+        }
+        .play-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.6);
+            transition: opacity 0.3s ease, background 0.3s ease;
+            cursor: pointer;
+            z-index: 10;
+            border-radius: 12px;
+        }
+        .play-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .play-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            color: white;
+            transition: transform 0.2s ease, background 0.2s ease;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        .play-overlay:hover .play-icon {
+            transform: scale(1.1);
+            background: rgba(255,255,255,0.3);
+        }
+        .video-error {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            text-align: center;
+            padding: 15px;
+            border-radius: 12px;
+            z-index: 15;
+        }
+        .video-error i {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            color: var(--error);
+        }
+        .video-error p {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.05);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 100;
+            border: none;
+        }
+        .nav-btn:hover {
+            background: rgba(139,92,246,0.12);
+            transform: translateY(-50%) scale(1.05);
+        }
+        .prev-btn { left: 5px; }
+        .next-btn { right: 5px; }
+        .nav-btn i { font-size: 1.1rem; color: var(--text-main); }
+        .progress-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            position: relative;
+            z-index: 10;
+            margin-top: 10px;
+        }
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(10,20,30,0.06);
+            transition: all 0.18s ease;
+            cursor: pointer;
+            border: none;
+        }
+        .dot.active {
+            background: var(--primary);
+            transform: scale(1.2);
+        }
+        .dot:hover { transform: scale(1.1); }
+        .article-section {
+            flex: 1;
+            max-width: 750px;
+            margin: 20px auto;
+            padding: 25px 20px;
+            background: linear-gradient(135deg, #E9EEF8, #ffffff, #F8FAFC);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 
+                0 10px 25px rgba(10, 20, 30, 0.05),
+                0 0 0 1px rgba(255, 255, 255, 0.8),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            position: relative;
+            z-index: 5;
+        }
+        .article-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(6, 182, 212, 0.06) 0%, transparent 50%);
+            border-radius: 16px;
+            pointer-events: none;
+        }
+        .article-header { 
+            text-align: center; 
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+        .article-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 6px;
+            line-height: 1.1;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 6px rgba(139, 92, 246, 0.15);
+            background: linear-gradient(135deg, #0b1220, var(--primary-light));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .article-content {
+            max-width: 650px;
+            margin: 0 auto;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-main);
+            position: relative;
+            z-index: 2;
+        }
+        .article-text p { 
+            margin-bottom: 16px; 
+            letter-spacing: 0.1px;
+            color: var(--text-main);
+        }
+        .article-subtitle {
+            font-size: 1.2rem;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            color: var(--text-main);
+            margin: 18px 0 12px 0;
+            border-left: 3px solid var(--primary);
+            padding-left: 12px;
+            letter-spacing: -0.3px;
+        }
+        .article-list { 
+            margin: 16px 0; 
+            padding-left: 18px; 
+        }
+        .article-list li { 
+            margin-bottom: 10px; 
+            font-size: 0.9rem;
+            letter-spacing: 0.05px;
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+        .article-image { 
+            width: 100%; 
+            max-width: 550px; 
+            margin: 16px auto; 
+            border-radius: 10px; 
+            overflow: hidden; 
+            box-shadow: 0 8px 20px rgba(10, 20, 30, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+        .article-image img { 
+            width: 100%; 
+            height: auto; 
+            display:block; 
+        }
+        .article-quote {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(6, 182, 212, 0.05));
+            border-left: 3px solid var(--primary);
+            padding: 16px;
+            margin: 18px 0;
+            border-radius: 0 10px 10px 0;
+            font-style: italic;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--text-main);
+            letter-spacing: 0.2px;
+            box-shadow: 0 4px 15px rgba(10, 20, 30, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+        .loading { 
+            text-align:center; 
+            padding: 20px; 
+            font-size:0.9rem; 
+            opacity: 0.9; 
+            font-family: 'Inter', sans-serif;
+        }
+        .particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            display: block;
+        }
+        @keyframes glowPulse {
+            from { transform: translate(-20%, -20%) rotate(2deg); }
+            to { transform: translate(20%, 20%) rotate(-2deg); }
+        }
+        @media (max-width:768px) {
+            .carousel { width:240px; height:426px; } /* Сохраняем 9:16 */
+            h1 { font-size:2.2rem; }
+            .news-frame { padding: 16px; }
+            .news-button { padding: 10px 20px; font-size: 0.9rem; }
+            .article-section { padding: 20px 16px; margin: 16px; }
+            .article-title { font-size: 1.5rem; }
+            .video-title { font-size: 0.9rem; top: -40px; }
+            .gallery-container { padding: 25px 0 12px; min-height: 350px; }
+            .preview-play-icon { font-size: 1.8rem; }
+            .nav-btn { width: 35px; height: 35px; }
+            .nav-btn i { font-size: 1rem; }
+        }
+        @media (max-width:480px) {
+            .carousel { width: 210px; height:373px; } /* Сохраняем 9:16 */
+            h1 { font-size:1.8rem; }
+            .news-frame { padding: 14px; }
+            .news-button { padding: 8px 16px; font-size: 0.85rem; }
+            .article-section { padding: 16px 12px; margin: 12px; }
+            .article-title { font-size: 1.3rem; }
+            .video-title { font-size: 0.85rem; top: -35px; }
+            .gallery-container { padding: 20px 0 10px; min-height: 320px; }
+            .preview-play-icon { font-size: 1.6rem; }
+            .play-icon { width: 45px; height: 45px; font-size: 16px; }
+            .nav-btn { width: 30px; height: 30px; }
+            .nav-btn i { font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>OSINEC</h1>
+        <div class="news-container">
+            <div class="news-frame">
+                <div class="news-content">
+                    <h3>🌿 Новости</h3>
+                    <p>Фундаментальные истории о стойкости, которые делают тебя увереннее и устойчивее в фоновом режиме. Истории с пошаговым алгоритмом действий</p>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="gallery-container">
+        <button class="nav-btn prev-btn" id="prevBtn" aria-label="Previous">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="carousel" id="carousel">
+            <div class="loading" id="loading" aria-hidden="false">
+                <p>🔄 Загрузка данных...</p>
+            </div>
+        </div>
+        <button class="nav-btn next-btn" id="nextBtn" aria-label="Next">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+        <div class="progress-dots" id="progressDots" role="tablist" aria-label="Navigation dots"></div>
+    </div>
+    <div class="button-container">
+        <div class="button-glow" aria-hidden="true"></div>
+        <a href="https://vibeshorts.example.com/special-issue" class="news-button">
+            <span>Читать спецвыпуск</span>
+            <i class="fas fa-arrow-right icon"></i>
+        </a>
+    </div>
+    <section class="article-section">
+        <div class="article-header">
+            <h2 class="article-title" id="articleTitle"></h2>
+        </div>
+        <div class="article-content" id="articleContent">
+            <div class="article-text"><p></p></div>
+        </div>
+    </section>
+    <canvas class="particles-canvas" id="particlesCanvas" aria-hidden="true"></canvas>
+    <script>
+        let videos = [];
+        let currentIndex = 0;
+        let currentlyPlayingVideo = null;
+
+        const carousel = document.getElementById('carousel');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const progressDots = document.getElementById('progressDots');
+        const articleTitle = document.getElementById('articleTitle');
+        const articleContent = document.getElementById('articleContent');
+        const loading = document.getElementById('loading');
+        const particlesCanvas = document.getElementById('particlesCanvas');
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.style.overflowX = 'hidden';
+            document.documentElement.style.overflowX = 'hidden';
+            document.addEventListener('wheel', onWheel, { passive: false });
+            document.addEventListener('touchmove', onTouchMove, { passive: false });
+            nextBtn.addEventListener('click', nextVideo);
+            prevBtn.addEventListener('click', prevVideo);
+            document.addEventListener('keydown', onKeyDown, { passive: true });
+
+            let startX = 0;
+            carousel.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, { passive: true });
+            carousel.addEventListener('touchend', (e) => {
+                const endX = e.changedTouches[0].clientX;
+                if (Math.abs(startX - endX) > 50) {
+                    if (startX - endX > 0) nextVideo(); else prevVideo();
+                }
+            }, { passive: true });
+
+            initParticlesCanvas();
+            loadVideosData();
+        });
+
+        function onWheel(e) {
+            if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) e.preventDefault();
+        }
+        function onTouchMove(e) {
+            if (e.touches.length > 1) return;
+        }
+        function onKeyDown(e) {
+            if (e.key === 'ArrowRight') nextVideo();
+            else if (e.key === 'ArrowLeft') prevVideo();
+        }
+
+        async function loadVideosData() {
+            loading.innerHTML = '<p>🔄 Загрузка данных...</p>';
+            try {
+                const response = await fetch('data.json');
+                if (!response.ok) throw new Error('Ошибка загрузки data.json');
+                const data = await response.json();
+                videos = Array.isArray(data.videos) ? data.videos : [];
+                if (!videos || videos.length === 0) videos = getDefaultVideos();
+                loading.style.display = 'none';
+                createVideoCards();
+                requestAnimationFrame(() => {
+                    updateCarousel();
+                    updateArticle();
+                });
+            } catch (err) {
+                console.error('Ошибка загрузки:', err);
+                videos = getDefaultVideos();
+                setTimeout(() => {
+                    loading.style.display = 'none';
+                    createVideoCards();
+                    requestAnimationFrame(() => {
+                        updateCarousel();
+                        updateArticle();
+                    });
+                }, 600);
+            }
+        }
+
+        function getVideoType(videoUrl) {
+            if (!videoUrl) return 'unknown';
+            if (videoUrl.includes('yandex')) return 'yandex';
+            if (videoUrl.includes('youtube')) return 'youtube';
+            if (videoUrl.includes('.mp4') || videoUrl.includes('.webm') || videoUrl.includes('.ogg')) return 'direct';
+            return 'unknown';
+        }
+
+        function createVideoCards() {
+            carousel.innerHTML = '';
+            const frag = document.createDocumentFragment();
+            videos.forEach((video, index) => {
+                const videoCard = document.createElement('div');
+                videoCard.className = 'video-card';
+                videoCard.dataset.index = index;
+                const videoType = getVideoType(video.videoUrl);
+                let videoHTML = '';
+                
+                const previewImage = video.previewImage || 'default-preview.jpg';
+                
+                if (videoType === 'yandex' || videoType === 'youtube') {
+                    videoHTML = `
+                        <div class="video-title">${escapeHtml(video.title)}</div>
+                        <div class="video-player-container">
+                            <div class="yandex-player-container" style="display: none;">
+                                <iframe 
+                                    class="yandex-player-iframe" 
+                                    allow="encrypted-media" 
+                                    allowfullscreen
+                                    loading="lazy">
+                                </iframe>
+                            </div>
+                            <div class="video-preview" style="background-image: url('${previewImage}')">
+                                <div class="preview-content">
+                                    <div class="preview-play-icon">▶</div>
+                                    <div class="preview-text">Нажмите для воспроизведения</div>
+                                </div>
+                            </div>
+                            <div class="play-overlay">
+                                <div class="play-icon">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    videoHTML = `
+                        <div class="video-title">${escapeHtml(video.title)}</div>
+                        <div class="video-player-container">
+                            <video class="video-player" preload="none" playsinline muted tabindex="-1" poster="${previewImage}"></video>
+                            <div class="play-overlay">
+                                <div class="play-icon">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+                videoCard.innerHTML = videoHTML;
+                
+                if (videoType === 'yandex' || videoType === 'youtube') {
+                    const iframeContainer = videoCard.querySelector('.yandex-player-container');
+                    const iframe = videoCard.querySelector('.yandex-player-iframe');
+                    const preview = videoCard.querySelector('.video-preview');
+                    const playOverlay = videoCard.querySelector('.play-overlay');
+                    
+                    const playHandler = (e) => {
+                        e.stopPropagation();
+                        stopAllVideos();
+                        
+                        iframeContainer.style.display = 'block';
+                        preview.style.display = 'none';
+                        playOverlay.classList.add('hidden');
+                        
+                        if (!iframe.src) {
+                            let videoUrl = video.videoUrl;
+                            if (videoType === 'youtube') {
+                                videoUrl = videoUrl.includes('?') 
+                                    ? `${videoUrl}&autoplay=1` 
+                                    : `${videoUrl}?autoplay=1`;
+                            } else if (videoType === 'yandex') {
+                                videoUrl = videoUrl.includes('?') 
+                                    ? `${videoUrl}&autoplay=1` 
+                                    : `${videoUrl}?autoplay=1`;
+                            }
+                            iframe.src = videoUrl;
+                        }
+                        
+                        currentlyPlayingVideo = iframe;
+                    };
+                    
+                    playOverlay.addEventListener('click', playHandler, { passive: true });
+                    preview.addEventListener('click', playHandler, { passive: true });
+                    
+                } else {
+                    const videoElement = videoCard.querySelector('.video-player');
+                    const playOverlay = videoCard.querySelector('.play-overlay');
+                    videoElement.dataset.src = video.videoUrl || '';
+                    
+                    const playHandler = (e) => {
+                        e.stopPropagation();
+                        toggleVideoPlayback(videoElement, playOverlay);
+                    };
+                    
+                    playOverlay.addEventListener('click', playHandler, { passive: true });
+                    
+                    videoElement.addEventListener('ended', () => {
+                        playOverlay.classList.remove('hidden');
+                        currentlyPlayingVideo = null;
+                    }, { passive: true });
+                }
+                frag.appendChild(videoCard);
+            });
+            carousel.appendChild(frag);
+            createProgressDots();
+        }
+
+        function stopAllVideos() {
+            if (currentlyPlayingVideo && currentlyPlayingVideo.tagName === 'VIDEO') {
+                try {
+                    currentlyPlayingVideo.pause();
+                    currentlyPlayingVideo.currentTime = 0;
+                    const playOverlay = currentlyPlayingVideo.parentElement.querySelector('.play-overlay');
+                    if (playOverlay) playOverlay.classList.remove('hidden');
+                } catch (e) {}
+            }
+            
+            const iframes = document.querySelectorAll('.yandex-player-iframe');
+            iframes.forEach(iframe => {
+                if (iframe.src && iframe !== currentlyPlayingVideo) {
+                    try {
+                        const src = iframe.src.replace('&autoplay=1', '').replace('?autoplay=1', '');
+                        iframe.src = src;
+                        const container = iframe.closest('.yandex-player-container');
+                        const preview = container.parentElement.querySelector('.video-preview');
+                        const playOverlay = container.parentElement.querySelector('.play-overlay');
+                        if (container) container.style.display = 'none';
+                        if (preview) preview.style.display = 'block';
+                        if (playOverlay) playOverlay.classList.remove('hidden');
+                    } catch (e) {}
+                }
+            });
+            
+            currentlyPlayingVideo = null;
+        }
+
+        function toggleVideoPlayback(videoElement, playOverlay) {
+            if (!videoElement) return;
+            const container = videoElement.parentElement;
+            const errorDiv = container.querySelector('.video-error');
+            if (errorDiv) return;
+
+            stopAllVideos();
+
+            if (!videoElement.src && videoElement.dataset.src) {
+                const source = document.createElement('source');
+                source.src = videoElement.dataset.src;
+                source.type = 'video/mp4';
+                videoElement.appendChild(source);
+                videoElement.load();
+            }
+
+            if (videoElement.paused) {
+                videoElement.play().then(() => {
+                    playOverlay.classList.add('hidden');
+                    currentlyPlayingVideo = videoElement;
+                }).catch(err => {
+                    console.error('Ошибка воспроизведения:', err);
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'video-error';
+                    errorDiv.innerHTML = `
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Ошибка загрузки видео</p>
+                    `;
+                    container.appendChild(errorDiv);
+                });
+            } else {
+                videoElement.pause();
+                playOverlay.classList.remove('hidden');
+                currentlyPlayingVideo = null;
+            }
+        }
+
+        function createProgressDots() {
+            progressDots.innerHTML = '';
+            const frag = document.createDocumentFragment();
+            videos.forEach((_, idx) => {
+                const dot = document.createElement('div');
+                dot.className = `dot ${idx === currentIndex ? 'active' : ''}`;
+                dot.addEventListener('click', () => goToVideo(idx), { passive: true });
+                frag.appendChild(dot);
+            });
+            progressDots.appendChild(frag);
+        }
+
+        let rafId = null;
+        function updateCarousel() {
+            if (rafId) cancelAnimationFrame(rafId);
+            rafId = requestAnimationFrame(() => {
+                const cards = carousel.children;
+                const total = cards.length;
+                for (let i = 0; i < total; i++) {
+                    const card = cards[i];
+                    const position = (i - currentIndex + total) % total;
+                    const title = card.querySelector('.video-title');
+                    if (position === 0) title.style.opacity = '1';
+                    else if (position === 1 || position === total - 1) title.style.opacity = '0.7';
+                    else if (position === 2 || position === total - 2) title.style.opacity = '0.4';
+                    else title.style.opacity = '0.1';
+
+                    if (position === 0) {
+                        card.style.transform = 'translate3d(0,0,0)';
+                        card.style.zIndex = '10';
+                        card.style.opacity = '1';
+                        card.style.pointerEvents = 'auto';
+                    } else if (position === 1) {
+                        card.style.transform = 'translate3d(240px,0,-60px) rotateY(-12deg)';
+                        card.style.opacity = '0.85';
+                        card.style.zIndex = '9';
+                        card.style.pointerEvents = 'auto';
+                    } else if (position === total - 1) {
+                        card.style.transform = 'translate3d(-240px,0,-60px) rotateY(12deg)';
+                        card.style.opacity = '0.85';
+                        card.style.zIndex = '9';
+                        card.style.pointerEvents = 'auto';
+                    } else if (position === 2) {
+                        card.style.transform = 'translate3d(480px,0,-120px) rotateY(-24deg)';
+                        card.style.opacity = '0.45';
+                        card.style.zIndex = '8';
+                        card.style.pointerEvents = 'none';
+                    } else if (position === total - 2) {
+                        card.style.transform = 'translate3d(-480px,0,-120px) rotateY(24deg)';
+                        card.style.opacity = '0.45';
+                        card.style.zIndex = '8';
+                        card.style.pointerEvents = 'none';
+                    } else {
+                        card.style.transform = 'translate3d(0,0,-180px)';
+                        card.style.opacity = '0';
+                        card.style.zIndex = '1';
+                        card.style.pointerEvents = 'none';
+                    }
+                }
+                const dots = progressDots.children;
+                for (let i = 0; i < dots.length; i++) {
+                    dots[i].className = `dot ${i === currentIndex ? 'active' : ''}`;
+                }
+                rafId = null;
+            });
+        }
+
+        function updateArticle() {
+            if (videos.length > 0 && currentIndex < videos.length) {
+                const currentVideo = videos[currentIndex];
+                articleTitle.textContent = currentVideo.article.title;
+                articleContent.innerHTML = currentVideo.article.content;
+            }
+        }
+
+        function goToVideo(index) {
+            stopAllVideos();
+            currentIndex = index % videos.length;
+            updateCarousel();
+            updateArticle();
+        }
+        function nextVideo() { goToVideo((currentIndex + 1) % videos.length); }
+        function prevVideo() { goToVideo((currentIndex - 1 + videos.length) % videos.length); }
+
+        function initParticlesCanvas() {
+            const ctx = particlesCanvas.getContext('2d');
+            let dpr = Math.max(1, window.devicePixelRatio || 1);
+            function resize() {
+                const w = window.innerWidth;
+                const h = window.innerHeight;
+                particlesCanvas.width = Math.floor(w * dpr);
+                particlesCanvas.height = Math.floor(h * dpr);
+                particlesCanvas.style.width = w + 'px';
+                particlesCanvas.style.height = h + 'px';
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            }
+            resize();
+            window.addEventListener('resize', resize);
+            
+            const PARTICLE_COUNT = 6;
+            const particles = [];
+            for (let i = 0; i < PARTICLE_COUNT; i++) {
+                particles.push({
+                    x: Math.random() * window.innerWidth,
+                    y: Math.random() * window.innerHeight,
+                    r: Math.random() * 2 + 1,
+                    vx: (Math.random() - 0.5) * 0.2,
+                    vy: - (Math.random() * 0.1 + 0.02),
+                    alpha: Math.random() * 0.3 + 0.1,
+                    phase: Math.random() * Math.PI * 2,
+                    speedFactor: Math.random() * 0.5 + 0.5
+                });
+            }
+            
+            function draw() {
+                const w = particlesCanvas.width / dpr;
+                const h = particlesCanvas.height / dpr;
+                ctx.clearRect(0, 0, w, h);
+                for (let p of particles) {
+                    p.phase += 0.01 * p.speedFactor;
+                    p.x += p.vx * p.speedFactor;
+                    p.y += p.vy * p.speedFactor;
+                    if (p.y + p.r < -50) p.y = h + 50;
+                    if (p.x - p.r > w + 50) p.x = -50;
+                    if (p.x + p.r < -50) p.x = w + 50;
+                    const glow = Math.sin(p.phase) * 0.3 + 0.7;
+                    ctx.beginPath();
+                    const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 3);
+                    grad.addColorStop(0, `rgba(139,92,246,${(p.alpha * 0.4 * glow).toFixed(3)})`);
+                    grad.addColorStop(1, 'rgba(0,0,0,0)');
+                    ctx.fillStyle = grad;
+                    ctx.arc(p.x, p.y, p.r * 3, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                requestAnimationFrame(draw);
+            }
+            requestAnimationFrame(draw);
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'<','>':'>','"':'&quot;',"'":'&#39;'}[m]));
+        }
+
+        function getDefaultVideos() {
+            return [
+                {
+                    title: "Пример видео с Яндекс Облаком",
+                    videoUrl: "https://runtime.video.cloud.yandex.net/player/video/vplvscsviln3pecevi4w",
+                    previewImage: "preview1.jpg",
+                    article: {
+                        title: "Демонстрационная статья",
+                        content: `
+                            <div class="article-text">
+                                <p>Это демонстрационная статья для видео с Яндекс Облака.</p>
+                                <div class="article-image">
+                                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Демо изображение">
+                                </div>
+                                <h3 class="article-subtitle">Особенности Яндекс Видео</h3>
+                                <p>Видео воспроизводится через встроенный плеер.</p>
+                            </div>
+                        `
+                    }
+                },
+                {
+                    title: "Второе демо видео",
+                    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+                    previewImage: "preview2.jpg",
+                    article: {
+                        title: "Вторая демо статья",
+                        content: `<div class="article-text"><p>Это вторая демонстрационная статья с MP4 видео.</p></div>`
+                    }
+                }
+            ];
+        }
+    </script>
+</body>
+</html>
