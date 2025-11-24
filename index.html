@@ -736,22 +736,54 @@
             else if (e.key === 'ArrowLeft') prevVideo();
         }
 
+        function validateAndFixVideoData(video) {
+            // Проверяем обязательные поля
+            if (!video.title) video.title = "Без названия";
+            if (!video.videoUrl) video.videoUrl = "";
+            if (!video.previewImage) video.previewImage = "default-preview.jpg";
+            
+            // Проверяем структуру статьи
+            if (!video.article) {
+                video.article = {
+                    title: "Статья",
+                    content: "<div class='article-text'><p>Содержание отсутствует</p></div>"
+                };
+            } else {
+                if (!video.article.title) video.article.title = "Статья";
+                if (!video.article.content) {
+                    video.article.content = "<div class='article-text'><p>Содержание отсутствует</p></div>";
+                }
+            }
+            
+            return video;
+        }
+
         async function loadVideosData() {
             loading.innerHTML = '<p>🔄 Загрузка данных...</p>';
             try {
-                const response = await fetch('data.json');
-                if (!response.ok) throw new Error('Ошибка загрузки data.json');
+                // Используем правильный путь к data.json
+                const response = await fetch('./data.json');
+                if (!response.ok) throw new Error(`Ошибка загрузки: ${response.status}`);
                 const data = await response.json();
-                videos = Array.isArray(data.videos) ? data.videos : [];
-                if (!videos || videos.length === 0) videos = getDefaultVideos();
+                
+                console.log('Загруженные данные:', data); // Для отладки
+                
+                videos = Array.isArray(data.videos) ? data.videos.map(validateAndFixVideoData) : [];
+                
+                if (videos.length === 0) {
+                    console.warn('Нет видео данных, используем демо данные');
+                    videos = getDefaultVideos();
+                }
+                
                 loading.style.display = 'none';
                 createVideoCards();
                 requestAnimationFrame(() => {
                     updateCarousel();
                     updateArticle();
                 });
+                
             } catch (err) {
-                console.error('Ошибка загрузки:', err);
+                console.error('Ошибка загрузки данных:', err);
                 videos = getDefaultVideos();
                 setTimeout(() => {
                     loading.style.display = 'none';
@@ -1019,6 +1051,9 @@
                 const currentVideo = videos[currentIndex];
                 articleTitle.textContent = currentVideo.article.title;
                 articleContent.innerHTML = currentVideo.article.content;
+            } else {
+                articleTitle.textContent = "Статья не найдена";
+                articleContent.innerHTML = "<div class='article-text'><p>Содержание статьи временно недоступно.</p></div>";
             }
         }
 
