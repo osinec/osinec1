@@ -109,17 +109,11 @@
             letter-spacing: -0.5px;
         }
         .news-content p {
-            margin-bottom: 6px;
+            margin-bottom: 12px;
             opacity: 0.95;
             word-wrap: break-word;
             hyphens: auto;
             letter-spacing: 0.1px;
-        }
-        .button-container {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0 30px;
-            position: relative;
         }
         .news-button {
             display: inline-flex;
@@ -128,7 +122,7 @@
             background: linear-gradient(135deg, #0D9488, #10B981, #059669, #0D9488, #10B981);
             background-size: 400% 400%;
             color: white;
-            padding: 12px 24px;
+            padding: 10px 20px;
             border-radius: 50px;
             font-weight: 700;
             font-family: 'Poppins', sans-serif;
@@ -140,12 +134,18 @@
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             border: none;
             letter-spacing: 0.6px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             position: relative;
             overflow: hidden;
             animation: 
                 shimmer 2.5s ease-in-out infinite,
                 gentlePulse 3s ease-in-out infinite;
+            display: block;
+            margin-top: 12px;
+            text-align: center;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
         }
         .news-button::before {
             content: '';
@@ -161,19 +161,6 @@
                 transparent
             );
             animation: shine 3s ease-in-out infinite;
-        }
-        .button-glow {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 120%;
-            height: 120%;
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: glowPulseButton 3s ease-in-out infinite;
-            z-index: -1;
-            pointer-events: none;
         }
         .news-button .icon {
             transition: all 0.3s ease;
@@ -216,16 +203,6 @@
                 left: 100%;
             }
         }
-        @keyframes glowPulseButton {
-            0%, 100% {
-                opacity: 0.2;
-                transform: translate(-50%, -50%) scale(1);
-            }
-            50% {
-                opacity: 0.4;
-                transform: translate(-50%, -50%) scale(1.1);
-            }
-        }
         @keyframes iconPulse {
             0%, 100% {
                 transform: translateX(0) scale(1);
@@ -251,13 +228,13 @@
             position: relative;
             perspective: 800px;
             padding: 30px 0 15px;
-            min-height: 380px;
+            min-height: 480px;
             flex-direction: column;
         }
         .carousel {
             position: relative;
             width: 270px;
-            height: 480px; /* 9:16 соотношение */
+            height: 480px;
             transform-style: preserve-3d;
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             margin-bottom: 15px;
@@ -284,7 +261,7 @@
         }
         .video-title-container {
             position: absolute;
-            top: -45px; /* Сделал чуть ниже */
+            top: -30px; /* ← Смещение названия ближе к видео */
             left: 0;
             right: 0;
             text-align: center;
@@ -319,7 +296,6 @@
             border-radius: 12px;
             box-shadow: 0 10px 20px rgba(10, 20, 30, 0.08);
             border: 1px solid rgba(10,20,30,0.05);
-            margin-top: 0;
         }
         .video-player {
             width: 100%;
@@ -620,29 +596,29 @@
             to { transform: translate(20%, 20%) rotate(-2deg); }
         }
         @media (max-width:768px) {
-            .carousel { width:240px; height:426px; } /* Сохраняем 9:16 */
+            .carousel { width:240px; height:426px; }
             h1 { font-size:2.2rem; }
             .news-frame { padding: 16px; }
-            .news-button { padding: 10px 20px; font-size: 0.9rem; }
+            .news-button { padding: 10px 18px; font-size: 0.9rem; }
             .article-section { padding: 20px 16px; margin: 16px; }
             .article-title { font-size: 1.5rem; }
             .video-title { font-size: 0.9rem; }
-            .video-title-container { top: -40px; }
-            .gallery-container { padding: 25px 0 12px; min-height: 350px; }
+            .video-title-container { top: -28px; }
+            .gallery-container { padding: 25px 0 12px; min-height: 420px; }
             .preview-play-icon { font-size: 1.8rem; }
             .nav-btn { width: 35px; height: 35px; }
             .nav-btn i { font-size: 1rem; }
         }
         @media (max-width:480px) {
-            .carousel { width: 210px; height:373px; } /* Сохраняем 9:16 */
+            .carousel { width: 210px; height:373px; }
             h1 { font-size:1.8rem; }
             .news-frame { padding: 14px; }
-            .news-button { padding: 8px 16px; font-size: 0.85rem; }
+            .news-button { padding: 9px 16px; font-size: 0.85rem; }
             .article-section { padding: 16px 12px; margin: 12px; }
             .article-title { font-size: 1.3rem; }
             .video-title { font-size: 0.85rem; }
-            .video-title-container { top: -35px; }
-            .gallery-container { padding: 20px 0 10px; min-height: 320px; }
+            .video-title-container { top: -26px; }
+            .gallery-container { padding: 20px 0 10px; min-height: 380px; }
             .preview-play-icon { font-size: 1.6rem; }
             .play-icon { width: 45px; height: 45px; font-size: 16px; }
             .nav-btn { width: 30px; height: 30px; }
@@ -658,11 +634,15 @@
                 <div class="news-content">
                     <h3>🌿 Новости</h3>
                     <p>Фундаментальные истории о стойкости, которые делают тебя увереннее и устойчивее в фоновом режиме. Истории с пошаговым алгоритмом действий</p>
+                    <!-- Кнопка перенесена сюда -->
+                    <a href="https://vibeshorts.example.com/special-issue" class="news-button">
+                        <span>Читать спецвыпуск</span>
+                        <i class="fas fa-arrow-right icon"></i>
+                    </a>
                 </div>
             </div>
         </div>
     </header>
-
     <div class="gallery-container">
         <button class="nav-btn prev-btn" id="prevBtn" aria-label="Previous">
             <i class="fas fa-chevron-left"></i>
@@ -677,13 +657,6 @@
         </button>
         <div class="progress-dots" id="progressDots" role="tablist" aria-label="Navigation dots"></div>
     </div>
-    <div class="button-container">
-        <div class="button-glow" aria-hidden="true"></div>
-        <a href="https://vibeshorts.example.com/special-issue" class="news-button">
-            <span>Читать спецвыпуск</span>
-            <i class="fas fa-arrow-right icon"></i>
-        </a>
-    </div>
     <section class="article-section">
         <div class="article-header">
             <h2 class="article-title" id="articleTitle"></h2>
@@ -697,7 +670,6 @@
         let videos = [];
         let currentIndex = 0;
         let currentlyPlayingVideo = null;
-
         const carousel = document.getElementById('carousel');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
@@ -706,7 +678,6 @@
         const articleContent = document.getElementById('articleContent');
         const loading = document.getElementById('loading');
         const particlesCanvas = document.getElementById('particlesCanvas');
-
         document.addEventListener('DOMContentLoaded', () => {
             document.body.style.overflowX = 'hidden';
             document.documentElement.style.overflowX = 'hidden';
@@ -715,7 +686,6 @@
             nextBtn.addEventListener('click', nextVideo);
             prevBtn.addEventListener('click', prevVideo);
             document.addEventListener('keydown', onKeyDown, { passive: true });
-
             let startX = 0;
             carousel.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, { passive: true });
             carousel.addEventListener('touchend', (e) => {
@@ -724,11 +694,9 @@
                     if (startX - endX > 0) nextVideo(); else prevVideo();
                 }
             }, { passive: true });
-
             initParticlesCanvas();
             loadVideosData();
         });
-
         function onWheel(e) {
             if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) e.preventDefault();
         }
@@ -739,12 +707,10 @@
             if (e.key === 'ArrowRight') nextVideo();
             else if (e.key === 'ArrowLeft') prevVideo();
         }
-
         function validateAndFixVideoData(video) {
             if (!video.title) video.title = "Без названия";
             if (!video.videoUrl) video.videoUrl = "";
             if (!video.previewImage) video.previewImage = "default-preview.jpg";
-            
             if (!video.article) {
                 video.article = {
                     title: "Статья",
@@ -756,33 +722,24 @@
                     video.article.content = "<div class='article-text'><p>Содержание отсутствует</p></div>";
                 }
             }
-            
             return video;
         }
-
         async function loadVideosData() {
             loading.innerHTML = '<p>🔄 Загрузка данных...</p>';
             try {
                 const response = await fetch('./data.json');
                 if (!response.ok) throw new Error(`Ошибка загрузки: ${response.status}`);
                 const data = await response.json();
-                
-                console.log('Загруженные данные:', data);
-                
                 videos = Array.isArray(data.videos) ? data.videos.map(validateAndFixVideoData) : [];
-                
                 if (videos.length === 0) {
-                    console.warn('Нет видео данных, используем демо данные');
                     videos = getDefaultVideos();
                 }
-                
                 loading.style.display = 'none';
                 createVideoCards();
                 requestAnimationFrame(() => {
                     updateCarousel();
                     updateArticle();
                 });
-                
             } catch (err) {
                 console.error('Ошибка загрузки данных:', err);
                 videos = getDefaultVideos();
@@ -796,7 +753,6 @@
                 }, 600);
             }
         }
-
         function getVideoType(videoUrl) {
             if (!videoUrl) return 'unknown';
             if (videoUrl.includes('yandex')) return 'yandex';
@@ -804,7 +760,6 @@
             if (videoUrl.includes('.mp4') || videoUrl.includes('.webm') || videoUrl.includes('.ogg')) return 'direct';
             return 'unknown';
         }
-
         function createVideoCards() {
             carousel.innerHTML = '';
             const frag = document.createDocumentFragment();
@@ -813,9 +768,7 @@
                 videoCard.className = 'video-card';
                 videoCard.dataset.index = index;
                 const videoType = getVideoType(video.videoUrl);
-                
                 const previewImage = video.previewImage || 'default-preview.jpg';
-                
                 if (videoType === 'yandex' || videoType === 'youtube') {
                     videoCard.innerHTML = `
                         <div class="video-title-container">
@@ -830,7 +783,7 @@
                                     loading="lazy">
                                 </iframe>
                             </div>
-                            <div class="video-preview" style="background-image: url('${previewImage}')">
+                            <div class="video-preview" style="background-image: url('${escapeHtml(previewImage)}')">
                                 <div class="play-overlay">
                                     <div class="play-icon">
                                         <i class="fas fa-play"></i>
@@ -845,7 +798,7 @@
                             <div class="video-title">${escapeHtml(video.title)}</div>
                         </div>
                         <div class="video-player-container">
-                            <video class="video-player" preload="none" playsinline muted tabindex="-1" poster="${previewImage}"></video>
+                            <video class="video-player" preload="none" playsinline muted tabindex="-1" poster="${escapeHtml(previewImage)}"></video>
                             <div class="play-overlay">
                                 <div class="play-icon">
                                     <i class="fas fa-play"></i>
@@ -854,21 +807,17 @@
                         </div>
                     `;
                 }
-                
                 if (videoType === 'yandex' || videoType === 'youtube') {
                     const iframeContainer = videoCard.querySelector('.yandex-player-container');
                     const iframe = videoCard.querySelector('.yandex-player-iframe');
                     const preview = videoCard.querySelector('.video-preview');
                     const playOverlay = videoCard.querySelector('.play-overlay');
-                    
                     const playHandler = (e) => {
                         e.stopPropagation();
                         stopAllVideos();
-                        
                         iframeContainer.style.display = 'block';
                         preview.style.display = 'none';
                         playOverlay.classList.add('hidden');
-                        
                         if (!iframe.src) {
                             let videoUrl = video.videoUrl;
                             if (videoType === 'youtube') {
@@ -882,24 +831,18 @@
                             }
                             iframe.src = videoUrl;
                         }
-                        
                         currentlyPlayingVideo = iframe;
                     };
-                    
                     playOverlay.addEventListener('click', playHandler, { passive: true });
-                    
                 } else {
                     const videoElement = videoCard.querySelector('.video-player');
                     const playOverlay = videoCard.querySelector('.play-overlay');
                     videoElement.dataset.src = video.videoUrl || '';
-                    
                     const playHandler = (e) => {
                         e.stopPropagation();
                         toggleVideoPlayback(videoElement, playOverlay);
                     };
-                    
                     playOverlay.addEventListener('click', playHandler, { passive: true });
-                    
                     videoElement.addEventListener('ended', () => {
                         playOverlay.classList.remove('hidden');
                         currentlyPlayingVideo = null;
@@ -910,7 +853,6 @@
             carousel.appendChild(frag);
             createProgressDots();
         }
-
         function stopAllVideos() {
             if (currentlyPlayingVideo && currentlyPlayingVideo.tagName === 'VIDEO') {
                 try {
@@ -920,7 +862,6 @@
                     if (playOverlay) playOverlay.classList.remove('hidden');
                 } catch (e) {}
             }
-            
             const iframes = document.querySelectorAll('.yandex-player-iframe');
             iframes.forEach(iframe => {
                 if (iframe.src && iframe !== currentlyPlayingVideo) {
@@ -936,18 +877,14 @@
                     } catch (e) {}
                 }
             });
-            
             currentlyPlayingVideo = null;
         }
-
         function toggleVideoPlayback(videoElement, playOverlay) {
             if (!videoElement) return;
             const container = videoElement.parentElement;
             const errorDiv = container.querySelector('.video-error');
             if (errorDiv) return;
-
             stopAllVideos();
-
             if (!videoElement.src && videoElement.dataset.src) {
                 const source = document.createElement('source');
                 source.src = videoElement.dataset.src;
@@ -955,7 +892,6 @@
                 videoElement.appendChild(source);
                 videoElement.load();
             }
-
             if (videoElement.paused) {
                 videoElement.play().then(() => {
                     playOverlay.classList.add('hidden');
@@ -976,7 +912,6 @@
                 currentlyPlayingVideo = null;
             }
         }
-
         function createProgressDots() {
             progressDots.innerHTML = '';
             const frag = document.createDocumentFragment();
@@ -988,7 +923,6 @@
             });
             progressDots.appendChild(frag);
         }
-
         let rafId = null;
         function updateCarousel() {
             if (rafId) cancelAnimationFrame(rafId);
@@ -999,8 +933,6 @@
                     const card = cards[i];
                     const position = (i - currentIndex + total) % total;
                     const titleContainer = card.querySelector('.video-title-container');
-                    
-                    // Обновляем видимость заголовков в зависимости от позиции
                     if (position === 0) {
                         titleContainer.style.opacity = '1';
                         titleContainer.style.visibility = 'visible';
@@ -1014,7 +946,6 @@
                         titleContainer.style.opacity = '0.1';
                         titleContainer.style.visibility = 'visible';
                     }
-
                     if (position === 0) {
                         card.style.transform = 'translate3d(0,0,0)';
                         card.style.zIndex = '10';
@@ -1054,7 +985,6 @@
                 rafId = null;
             });
         }
-
         function updateArticle() {
             if (videos.length > 0 && currentIndex < videos.length) {
                 const currentVideo = videos[currentIndex];
@@ -1065,7 +995,6 @@
                 articleContent.innerHTML = "<div class='article-text'><p>Содержание статьи временно недоступно.</p></div>";
             }
         }
-
         function goToVideo(index) {
             stopAllVideos();
             currentIndex = index % videos.length;
@@ -1074,7 +1003,6 @@
         }
         function nextVideo() { goToVideo((currentIndex + 1) % videos.length); }
         function prevVideo() { goToVideo((currentIndex - 1 + videos.length) % videos.length); }
-
         function initParticlesCanvas() {
             const ctx = particlesCanvas.getContext('2d');
             let dpr = Math.max(1, window.devicePixelRatio || 1);
@@ -1089,7 +1017,6 @@
             }
             resize();
             window.addEventListener('resize', resize);
-            
             const PARTICLE_COUNT = 6;
             const particles = [];
             for (let i = 0; i < PARTICLE_COUNT; i++) {
@@ -1104,7 +1031,6 @@
                     speedFactor: Math.random() * 0.5 + 0.5
                 });
             }
-            
             function draw() {
                 const w = particlesCanvas.width / dpr;
                 const h = particlesCanvas.height / dpr;
@@ -1129,12 +1055,10 @@
             }
             requestAnimationFrame(draw);
         }
-
         function escapeHtml(text) {
             if (!text) return '';
             return text.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'<','>':'>','"':'&quot;',"'":'&#39;'}[m]));
         }
-
         function getDefaultVideos() {
             return [
                 {
@@ -1170,7 +1094,7 @@
                     previewImage: "preview3.jpg",
                     article: {
                         title: "Третья демо статья",
-                        content: `<div class="article-text"><p>Это третья демонстрационная статья с длинным названием видео.</p></div>`
+                        content: `<div class="article-text"><p>Это третья демонстрационная статья.</p></div>`
                     }
                 }
             ];
