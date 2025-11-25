@@ -250,17 +250,17 @@
             align-items: center;
             position: relative;
             perspective: 800px;
-            padding: 30px 0 10px;
-            min-height: 400px;
+            padding: 30px 0 15px;
+            min-height: 380px;
             flex-direction: column;
         }
         .carousel {
             position: relative;
-            width: 560px;     /* 16:9 */
-            height: 315px;    /* 16:9 */
+            width: 270px;
+            height: 480px; /* 9:16 соотношение */
             transform-style: preserve-3d;
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             will-change: transform;
         }
         .video-card {
@@ -282,15 +282,17 @@
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
         }
-        /* --- НОВЫЙ: ОДИН ОБЩИЙ КОНТЕЙНЕР НАД КАРУСЕЛЬЮ --- */
-        .active-video-title-container {
+        .video-title-container {
+            position: absolute;
+            top: -45px; /* Сделал чуть ниже */
+            left: 0;
+            right: 0;
             text-align: center;
-            margin-top: 8px;
-            width: 100%;
-            max-width: 560px;
+            z-index: 25;
             padding: 0 10px;
+            pointer-events: none;
         }
-        .active-video-title {
+        .video-title {
             font-family: 'Inter', sans-serif;
             font-size: 1rem;
             font-weight: 600;
@@ -301,10 +303,10 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
             text-overflow: ellipsis;
+            max-width: 100%;
             word-wrap: break-word;
             text-shadow: 0 2px 4px rgba(255, 255, 255, 0.9);
         }
-        /* --- КОНЕЦ НОВОГО --- */
         .video-player-container {
             width: 100%;
             height: 100%;
@@ -317,6 +319,7 @@
             border-radius: 12px;
             box-shadow: 0 10px 20px rgba(10, 20, 30, 0.08);
             border: 1px solid rgba(10,20,30,0.05);
+            margin-top: 0;
         }
         .video-player {
             width: 100%;
@@ -612,30 +615,34 @@
             z-index: -1;
             display: block;
         }
+        @keyframes glowPulse {
+            from { transform: translate(-20%, -20%) rotate(2deg); }
+            to { transform: translate(20%, 20%) rotate(-2deg); }
+        }
         @media (max-width:768px) {
-            .carousel { width: 90vw; height: calc(90vw * 9 / 16); margin-bottom: 18px; }
-            .active-video-title-container { max-width: 90vw; }
+            .carousel { width:240px; height:426px; } /* Сохраняем 9:16 */
             h1 { font-size:2.2rem; }
             .news-frame { padding: 16px; }
             .news-button { padding: 10px 20px; font-size: 0.9rem; }
             .article-section { padding: 20px 16px; margin: 16px; }
             .article-title { font-size: 1.5rem; }
-            .active-video-title { font-size: 0.9rem; }
-            .gallery-container { padding: 25px 0 8px; min-height: 350px; }
+            .video-title { font-size: 0.9rem; }
+            .video-title-container { top: -40px; }
+            .gallery-container { padding: 25px 0 12px; min-height: 350px; }
             .preview-play-icon { font-size: 1.8rem; }
             .nav-btn { width: 35px; height: 35px; }
             .nav-btn i { font-size: 1rem; }
         }
         @media (max-width:480px) {
-            .carousel { width: 95vw; height: calc(95vw * 9 / 16); margin-bottom: 15px; }
-            .active-video-title-container { max-width: 95vw; }
+            .carousel { width: 210px; height:373px; } /* Сохраняем 9:16 */
             h1 { font-size:1.8rem; }
             .news-frame { padding: 14px; }
             .news-button { padding: 8px 16px; font-size: 0.85rem; }
             .article-section { padding: 16px 12px; margin: 12px; }
             .article-title { font-size: 1.3rem; }
-            .active-video-title { font-size: 0.85rem; }
-            .gallery-container { padding: 20px 0 6px; min-height: 320px; }
+            .video-title { font-size: 0.85rem; }
+            .video-title-container { top: -35px; }
+            .gallery-container { padding: 20px 0 10px; min-height: 320px; }
             .preview-play-icon { font-size: 1.6rem; }
             .play-icon { width: 45px; height: 45px; font-size: 16px; }
             .nav-btn { width: 30px; height: 30px; }
@@ -655,6 +662,7 @@
             </div>
         </div>
     </header>
+
     <div class="gallery-container">
         <button class="nav-btn prev-btn" id="prevBtn" aria-label="Previous">
             <i class="fas fa-chevron-left"></i>
@@ -667,11 +675,6 @@
         <button class="nav-btn next-btn" id="nextBtn" aria-label="Next">
             <i class="fas fa-chevron-right"></i>
         </button>
-        <!-- === НОВЫЙ БЛОК НАЗВАНИЯ === -->
-        <div class="active-video-title-container">
-            <div class="active-video-title" id="activeVideoTitle"></div>
-        </div>
-        <!-- ========================== -->
         <div class="progress-dots" id="progressDots" role="tablist" aria-label="Navigation dots"></div>
     </div>
     <div class="button-container">
@@ -694,13 +697,13 @@
         let videos = [];
         let currentIndex = 0;
         let currentlyPlayingVideo = null;
+
         const carousel = document.getElementById('carousel');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
         const progressDots = document.getElementById('progressDots');
         const articleTitle = document.getElementById('articleTitle');
         const articleContent = document.getElementById('articleContent');
-        const activeVideoTitle = document.getElementById('activeVideoTitle'); // <-- новое
         const loading = document.getElementById('loading');
         const particlesCanvas = document.getElementById('particlesCanvas');
 
@@ -712,6 +715,7 @@
             nextBtn.addEventListener('click', nextVideo);
             prevBtn.addEventListener('click', prevVideo);
             document.addEventListener('keydown', onKeyDown, { passive: true });
+
             let startX = 0;
             carousel.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, { passive: true });
             carousel.addEventListener('touchend', (e) => {
@@ -720,6 +724,7 @@
                     if (startX - endX > 0) nextVideo(); else prevVideo();
                 }
             }, { passive: true });
+
             initParticlesCanvas();
             loadVideosData();
         });
@@ -739,6 +744,7 @@
             if (!video.title) video.title = "Без названия";
             if (!video.videoUrl) video.videoUrl = "";
             if (!video.previewImage) video.previewImage = "default-preview.jpg";
+            
             if (!video.article) {
                 video.article = {
                     title: "Статья",
@@ -750,6 +756,7 @@
                     video.article.content = "<div class='article-text'><p>Содержание отсутствует</p></div>";
                 }
             }
+            
             return video;
         }
 
@@ -759,19 +766,23 @@
                 const response = await fetch('./data.json');
                 if (!response.ok) throw new Error(`Ошибка загрузки: ${response.status}`);
                 const data = await response.json();
+                
                 console.log('Загруженные данные:', data);
+                
                 videos = Array.isArray(data.videos) ? data.videos.map(validateAndFixVideoData) : [];
+                
                 if (videos.length === 0) {
                     console.warn('Нет видео данных, используем демо данные');
                     videos = getDefaultVideos();
                 }
+                
                 loading.style.display = 'none';
                 createVideoCards();
                 requestAnimationFrame(() => {
                     updateCarousel();
                     updateArticle();
-                    updateActiveTitle(); // <-- новое
                 });
+                
             } catch (err) {
                 console.error('Ошибка загрузки данных:', err);
                 videos = getDefaultVideos();
@@ -781,7 +792,6 @@
                     requestAnimationFrame(() => {
                         updateCarousel();
                         updateArticle();
-                        updateActiveTitle(); // <-- новое
                     });
                 }, 600);
             }
@@ -803,9 +813,14 @@
                 videoCard.className = 'video-card';
                 videoCard.dataset.index = index;
                 const videoType = getVideoType(video.videoUrl);
+                
                 const previewImage = video.previewImage || 'default-preview.jpg';
+                
                 if (videoType === 'yandex' || videoType === 'youtube') {
                     videoCard.innerHTML = `
+                        <div class="video-title-container">
+                            <div class="video-title">${escapeHtml(video.title)}</div>
+                        </div>
                         <div class="video-player-container">
                             <div class="yandex-player-container" style="display: none;">
                                 <iframe 
@@ -815,7 +830,7 @@
                                     loading="lazy">
                                 </iframe>
                             </div>
-                            <div class="video-preview" style="background-image: url('${escapeHtml(previewImage)}')">
+                            <div class="video-preview" style="background-image: url('${previewImage}')">
                                 <div class="play-overlay">
                                     <div class="play-icon">
                                         <i class="fas fa-play"></i>
@@ -826,8 +841,11 @@
                     `;
                 } else {
                     videoCard.innerHTML = `
+                        <div class="video-title-container">
+                            <div class="video-title">${escapeHtml(video.title)}</div>
+                        </div>
                         <div class="video-player-container">
-                            <video class="video-player" preload="none" playsinline muted tabindex="-1" poster="${escapeHtml(previewImage)}"></video>
+                            <video class="video-player" preload="none" playsinline muted tabindex="-1" poster="${previewImage}"></video>
                             <div class="play-overlay">
                                 <div class="play-icon">
                                     <i class="fas fa-play"></i>
@@ -836,17 +854,21 @@
                         </div>
                     `;
                 }
+                
                 if (videoType === 'yandex' || videoType === 'youtube') {
                     const iframeContainer = videoCard.querySelector('.yandex-player-container');
                     const iframe = videoCard.querySelector('.yandex-player-iframe');
                     const preview = videoCard.querySelector('.video-preview');
                     const playOverlay = videoCard.querySelector('.play-overlay');
+                    
                     const playHandler = (e) => {
                         e.stopPropagation();
                         stopAllVideos();
+                        
                         iframeContainer.style.display = 'block';
                         preview.style.display = 'none';
                         playOverlay.classList.add('hidden');
+                        
                         if (!iframe.src) {
                             let videoUrl = video.videoUrl;
                             if (videoType === 'youtube') {
@@ -860,18 +882,24 @@
                             }
                             iframe.src = videoUrl;
                         }
+                        
                         currentlyPlayingVideo = iframe;
                     };
+                    
                     playOverlay.addEventListener('click', playHandler, { passive: true });
+                    
                 } else {
                     const videoElement = videoCard.querySelector('.video-player');
                     const playOverlay = videoCard.querySelector('.play-overlay');
                     videoElement.dataset.src = video.videoUrl || '';
+                    
                     const playHandler = (e) => {
                         e.stopPropagation();
                         toggleVideoPlayback(videoElement, playOverlay);
                     };
+                    
                     playOverlay.addEventListener('click', playHandler, { passive: true });
+                    
                     videoElement.addEventListener('ended', () => {
                         playOverlay.classList.remove('hidden');
                         currentlyPlayingVideo = null;
@@ -892,6 +920,7 @@
                     if (playOverlay) playOverlay.classList.remove('hidden');
                 } catch (e) {}
             }
+            
             const iframes = document.querySelectorAll('.yandex-player-iframe');
             iframes.forEach(iframe => {
                 if (iframe.src && iframe !== currentlyPlayingVideo) {
@@ -907,6 +936,7 @@
                     } catch (e) {}
                 }
             });
+            
             currentlyPlayingVideo = null;
         }
 
@@ -915,7 +945,9 @@
             const container = videoElement.parentElement;
             const errorDiv = container.querySelector('.video-error');
             if (errorDiv) return;
+
             stopAllVideos();
+
             if (!videoElement.src && videoElement.dataset.src) {
                 const source = document.createElement('source');
                 source.src = videoElement.dataset.src;
@@ -923,6 +955,7 @@
                 videoElement.appendChild(source);
                 videoElement.load();
             }
+
             if (videoElement.paused) {
                 videoElement.play().then(() => {
                     playOverlay.classList.add('hidden');
@@ -965,28 +998,45 @@
                 for (let i = 0; i < total; i++) {
                     const card = cards[i];
                     const position = (i - currentIndex + total) % total;
+                    const titleContainer = card.querySelector('.video-title-container');
+                    
+                    // Обновляем видимость заголовков в зависимости от позиции
+                    if (position === 0) {
+                        titleContainer.style.opacity = '1';
+                        titleContainer.style.visibility = 'visible';
+                    } else if (position === 1 || position === total - 1) {
+                        titleContainer.style.opacity = '0.7';
+                        titleContainer.style.visibility = 'visible';
+                    } else if (position === 2 || position === total - 2) {
+                        titleContainer.style.opacity = '0.4';
+                        titleContainer.style.visibility = 'visible';
+                    } else {
+                        titleContainer.style.opacity = '0.1';
+                        titleContainer.style.visibility = 'visible';
+                    }
+
                     if (position === 0) {
                         card.style.transform = 'translate3d(0,0,0)';
                         card.style.zIndex = '10';
                         card.style.opacity = '1';
                         card.style.pointerEvents = 'auto';
                     } else if (position === 1) {
-                        card.style.transform = 'translate3d(200px,0,-60px) rotateY(-12deg)';
+                        card.style.transform = 'translate3d(240px,0,-60px) rotateY(-12deg)';
                         card.style.opacity = '0.85';
                         card.style.zIndex = '9';
                         card.style.pointerEvents = 'auto';
                     } else if (position === total - 1) {
-                        card.style.transform = 'translate3d(-200px,0,-60px) rotateY(12deg)';
+                        card.style.transform = 'translate3d(-240px,0,-60px) rotateY(12deg)';
                         card.style.opacity = '0.85';
                         card.style.zIndex = '9';
                         card.style.pointerEvents = 'auto';
                     } else if (position === 2) {
-                        card.style.transform = 'translate3d(400px,0,-120px) rotateY(-24deg)';
+                        card.style.transform = 'translate3d(480px,0,-120px) rotateY(-24deg)';
                         card.style.opacity = '0.45';
                         card.style.zIndex = '8';
                         card.style.pointerEvents = 'none';
                     } else if (position === total - 2) {
-                        card.style.transform = 'translate3d(-400px,0,-120px) rotateY(24deg)';
+                        card.style.transform = 'translate3d(-480px,0,-120px) rotateY(24deg)';
                         card.style.opacity = '0.45';
                         card.style.zIndex = '8';
                         card.style.pointerEvents = 'none';
@@ -1016,23 +1066,12 @@
             }
         }
 
-        // === НОВАЯ ФУНКЦИЯ ===
-        function updateActiveTitle() {
-            if (videos.length > 0 && currentIndex < videos.length) {
-                activeVideoTitle.textContent = videos[currentIndex].title;
-            } else {
-                activeVideoTitle.textContent = "";
-            }
-        }
-
         function goToVideo(index) {
             stopAllVideos();
             currentIndex = index % videos.length;
             updateCarousel();
             updateArticle();
-            updateActiveTitle(); // <-- вызываем
         }
-
         function nextVideo() { goToVideo((currentIndex + 1) % videos.length); }
         function prevVideo() { goToVideo((currentIndex - 1 + videos.length) % videos.length); }
 
@@ -1050,6 +1089,7 @@
             }
             resize();
             window.addEventListener('resize', resize);
+            
             const PARTICLE_COUNT = 6;
             const particles = [];
             for (let i = 0; i < PARTICLE_COUNT; i++) {
@@ -1064,6 +1104,7 @@
                     speedFactor: Math.random() * 0.5 + 0.5
                 });
             }
+            
             function draw() {
                 const w = particlesCanvas.width / dpr;
                 const h = particlesCanvas.height / dpr;
