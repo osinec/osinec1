@@ -268,7 +268,7 @@
             width: 100%;
             height: 100%;
             border-radius: 12px;
-            overflow: hidden;
+            overflow: visible;
             box-shadow: 0 10px 20px rgba(10, 20, 30, 0.08);
             transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
             display: flex;
@@ -282,30 +282,30 @@
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
         }
-        .video-title {
+        .video-title-container {
             position: absolute;
-            top: -45px;
+            top: -60px;
             left: 0;
             right: 0;
             text-align: center;
+            z-index: 25;
+            padding: 0 10px;
+            pointer-events: none;
+        }
+        .video-title {
             font-family: 'Inter', sans-serif;
             font-size: 1rem;
             font-weight: 600;
             color: var(--text-main);
-            padding: 0 10px;
-            z-index: 20;
-            transition: opacity 0.4s ease;
-            pointer-events: none;
-            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.9);
-            white-space: normal;
-            overflow: visible;
-            text-overflow: unset;
             line-height: 1.3;
-            max-height: 40px;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
             word-wrap: break-word;
+            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.9);
         }
         .video-player-container {
             width: 100%;
@@ -319,6 +319,7 @@
             border-radius: 12px;
             box-shadow: 0 10px 20px rgba(10, 20, 30, 0.08);
             border: 1px solid rgba(10,20,30,0.05);
+            margin-top: 0;
         }
         .video-player {
             width: 100%;
@@ -625,7 +626,8 @@
             .news-button { padding: 10px 20px; font-size: 0.9rem; }
             .article-section { padding: 20px 16px; margin: 16px; }
             .article-title { font-size: 1.5rem; }
-            .video-title { font-size: 0.9rem; top: -40px; }
+            .video-title { font-size: 0.9rem; }
+            .video-title-container { top: -55px; }
             .gallery-container { padding: 25px 0 12px; min-height: 350px; }
             .preview-play-icon { font-size: 1.8rem; }
             .nav-btn { width: 35px; height: 35px; }
@@ -638,7 +640,8 @@
             .news-button { padding: 8px 16px; font-size: 0.85rem; }
             .article-section { padding: 16px 12px; margin: 12px; }
             .article-title { font-size: 1.3rem; }
-            .video-title { font-size: 0.85rem; top: -35px; }
+            .video-title { font-size: 0.85rem; }
+            .video-title-container { top: -50px; }
             .gallery-container { padding: 20px 0 10px; min-height: 320px; }
             .preview-play-icon { font-size: 1.6rem; }
             .play-icon { width: 45px; height: 45px; font-size: 16px; }
@@ -737,12 +740,10 @@
         }
 
         function validateAndFixVideoData(video) {
-            // Проверяем обязательные поля
             if (!video.title) video.title = "Без названия";
             if (!video.videoUrl) video.videoUrl = "";
             if (!video.previewImage) video.previewImage = "default-preview.jpg";
             
-            // Проверяем структуру статьи
             if (!video.article) {
                 video.article = {
                     title: "Статья",
@@ -761,12 +762,11 @@
         async function loadVideosData() {
             loading.innerHTML = '<p>🔄 Загрузка данных...</p>';
             try {
-                // Используем правильный путь к data.json
                 const response = await fetch('./data.json');
                 if (!response.ok) throw new Error(`Ошибка загрузки: ${response.status}`);
                 const data = await response.json();
                 
-                console.log('Загруженные данные:', data); // Для отладки
+                console.log('Загруженные данные:', data);
                 
                 videos = Array.isArray(data.videos) ? data.videos.map(validateAndFixVideoData) : [];
                 
@@ -812,13 +812,14 @@
                 videoCard.className = 'video-card';
                 videoCard.dataset.index = index;
                 const videoType = getVideoType(video.videoUrl);
-                let videoHTML = '';
                 
                 const previewImage = video.previewImage || 'default-preview.jpg';
                 
                 if (videoType === 'yandex' || videoType === 'youtube') {
-                    videoHTML = `
-                        <div class="video-title">${escapeHtml(video.title)}</div>
+                    videoCard.innerHTML = `
+                        <div class="video-title-container">
+                            <div class="video-title">${escapeHtml(video.title)}</div>
+                        </div>
                         <div class="video-player-container">
                             <div class="yandex-player-container" style="display: none;">
                                 <iframe 
@@ -829,21 +830,19 @@
                                 </iframe>
                             </div>
                             <div class="video-preview" style="background-image: url('${previewImage}')">
-                                <div class="preview-content">
-                                    <div class="preview-play-icon">▶</div>
-                                    <div class="preview-text">Нажмите для воспроизведения</div>
-                                </div>
-                            </div>
-                            <div class="play-overlay">
-                                <div class="play-icon">
-                                    <i class="fas fa-play"></i>
+                                <div class="play-overlay">
+                                    <div class="play-icon">
+                                        <i class="fas fa-play"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     `;
                 } else {
-                    videoHTML = `
-                        <div class="video-title">${escapeHtml(video.title)}</div>
+                    videoCard.innerHTML = `
+                        <div class="video-title-container">
+                            <div class="video-title">${escapeHtml(video.title)}</div>
+                        </div>
                         <div class="video-player-container">
                             <video class="video-player" preload="none" playsinline muted tabindex="-1" poster="${previewImage}"></video>
                             <div class="play-overlay">
@@ -854,7 +853,6 @@
                         </div>
                     `;
                 }
-                videoCard.innerHTML = videoHTML;
                 
                 if (videoType === 'yandex' || videoType === 'youtube') {
                     const iframeContainer = videoCard.querySelector('.yandex-player-container');
@@ -888,7 +886,6 @@
                     };
                     
                     playOverlay.addEventListener('click', playHandler, { passive: true });
-                    preview.addEventListener('click', playHandler, { passive: true });
                     
                 } else {
                     const videoElement = videoCard.querySelector('.video-player');
@@ -1000,11 +997,22 @@
                 for (let i = 0; i < total; i++) {
                     const card = cards[i];
                     const position = (i - currentIndex + total) % total;
-                    const title = card.querySelector('.video-title');
-                    if (position === 0) title.style.opacity = '1';
-                    else if (position === 1 || position === total - 1) title.style.opacity = '0.7';
-                    else if (position === 2 || position === total - 2) title.style.opacity = '0.4';
-                    else title.style.opacity = '0.1';
+                    const titleContainer = card.querySelector('.video-title-container');
+                    
+                    // Обновляем видимость заголовков в зависимости от позиции
+                    if (position === 0) {
+                        titleContainer.style.opacity = '1';
+                        titleContainer.style.visibility = 'visible';
+                    } else if (position === 1 || position === total - 1) {
+                        titleContainer.style.opacity = '0.7';
+                        titleContainer.style.visibility = 'visible';
+                    } else if (position === 2 || position === total - 2) {
+                        titleContainer.style.opacity = '0.4';
+                        titleContainer.style.visibility = 'visible';
+                    } else {
+                        titleContainer.style.opacity = '0.1';
+                        titleContainer.style.visibility = 'visible';
+                    }
 
                     if (position === 0) {
                         card.style.transform = 'translate3d(0,0,0)';
@@ -1147,12 +1155,21 @@
                     }
                 },
                 {
-                    title: "Второе демо видео",
+                    title: "Второе демо видео с длинным названием для проверки отображения",
                     videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
                     previewImage: "preview2.jpg",
                     article: {
                         title: "Вторая демо статья",
                         content: `<div class="article-text"><p>Это вторая демонстрационная статья с MP4 видео.</p></div>`
+                    }
+                },
+                {
+                    title: "Третье демо видео",
+                    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                    previewImage: "preview3.jpg",
+                    article: {
+                        title: "Третья демо статья",
+                        content: `<div class="article-text"><p>Это третья демонстрационная статья с длинным названием видео.</p></div>`
                     }
                 }
             ];
